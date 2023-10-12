@@ -18,7 +18,11 @@ export default function Board() {
     <div style={{ background: 'black', minWidth: '50px', maxWidth: '50px', minHeight: '50px', maxHeight: '50px', padding: '10px', border: '1px solid grey', textAlign: 'center'}} />
 </div>)
     const emptyGuesses = new Array(5).fill(emptyLine)
-    console.log(guesses, 'guesses')
+    if (typeof document !== "undefined") {
+        document.onkeydown = (e) => {
+            setCurrentGuess(currentGuess + e.key)
+        }
+    }
 
     const getBackground = (letter: string, index: number) => {
         if (word.includes(letter.toLowerCase()) && word.indexOf(letter.toLowerCase()) === index) {
