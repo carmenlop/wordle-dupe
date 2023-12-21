@@ -29,7 +29,6 @@ export default function Board() {
                     handleSubmit()
                 }
             } else if (e.key === 'Backspace' && currentGuess.length > 0) {
-                console.log('here')
                 setCurrentGuess(currentGuess.slice(0, -1))
             } else {
                 setCurrentGuess(currentGuess + e.key)
