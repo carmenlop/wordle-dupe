@@ -3,6 +3,7 @@ import React from "react";
 import {useEffect, useState} from "react";
 
 export default function Board() {
+    const letters = [['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'], ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'], ['Z', 'X', 'C', 'V', 'B', 'N', 'M']]
     const topLetters = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P']
     const medLetters = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L']
     const bottomLetters = ['Z', 'X', 'C', 'V', 'B', 'N', 'M']
@@ -17,10 +18,25 @@ export default function Board() {
     <div className="letterBox" />
     <div className="letterBox" />
 </div>)
+
+    const handleSubmit = () => {
+        setGuesses([...guesses, currentGuess])
+        setCurrentGuess('')
+        setGuessNumber(guessNumber + 1)
+    }
     const emptyGuesses = new Array(5).fill(emptyLine)
     if (typeof document !== "undefined") {
         document.onkeydown = (e) => {
-            setCurrentGuess(currentGuess + e.key)
+            if (e.key === 'Enter') {
+                if (currentGuess.length === 5) {
+                    handleSubmit()
+                }
+            } else if (e.key === 'Backspace' && currentGuess.length > 0) {
+                console.log('here')
+                setCurrentGuess(currentGuess.slice(0, -1))
+            } else {
+                setCurrentGuess(currentGuess + e.key)
+            }
         }
     }
 
@@ -31,11 +47,6 @@ export default function Board() {
             return 'rgba(245, 230, 83)'
         }
         return 'black'
-    }
-
-    const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const currentValue = e.currentTarget.value
-        setCurrentGuess(currentValue)
     }
     
     return (
@@ -60,7 +71,7 @@ export default function Board() {
                 return (
                     <div key={`current-guess-${index}`} style={{ background: 'black', minWidth: '50px', maxWidth: '50px', minHeight: '50px', maxHeight: '50px', padding: '15px', border: '1px solid grey', textAlign: 'center'}}>{letter.toUpperCase()}</div>
                  )})}
-            {new Array(5 - currentGuess.length).fill(<div className="letterBox" />).map((a, ind) => {
+            {currentGuess.length < 5 && new Array(5 - currentGuess.length).fill(<div className="letterBox" />).map((a, ind) => {
                 return (
                     <div key={`empty-${ind}-0`}>
                         {a}
@@ -81,50 +92,31 @@ export default function Board() {
             )
             }
         })}
+
         <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', marginTop: '10px', marginLeft: '-25px'}}>
-            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '2px'}}>
-                {topLetters.map((letter, index) => {
-                    return (
-                        <div key={`Keyboard-top-${letter}`} onClick={() => {
-                            setCurrentGuess(currentGuess + letter)
-                        }} style={{ width: '30px', background: 'grey', cursor: 'pointer', textAlign: 'center', padding: '5px'}}>
-                            {letter}
-                        </div>
-                    )
-                })}
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '3px'}}>
-                {medLetters.map((letter, index) => {
-                    return (
-                        <div key={`Keyboard-top-${letter}`} onClick={() => {
-                            setCurrentGuess(currentGuess + letter)
-                        }} style={{ width: '30px', background: 'grey', cursor: 'pointer', textAlign: 'center', padding: '5px'}}>
-                            {letter}
-                        </div>
-                    )
-                })}
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '2px'}}>
-                {bottomLetters.map((letter, index) => {
-                    return (
-                        <div key={`Keyboard-top-${letter}`} onClick={() => {
-                            setCurrentGuess(currentGuess + letter)
-                        }} style={{ width: '30px', background: 'grey', cursor: 'pointer', textAlign: 'center', padding: '5px'}}>
-                            {letter}
-                        </div>
-                    )
-                })}
-            </div>
+            {letters.map((row, index) => {
+                return (
+                    <div key={`row-${index}`} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '2px'}}>
+                    {row.map((letter) => {
+                        return (
+                            <div key={`Keyboard-letter-${letter}`} onClick={() => {
+                                setCurrentGuess(currentGuess + letter)
+                            }} style={{ width: '30px', background: 'grey', cursor: 'pointer', textAlign: 'center', padding: '5px'}}>
+                                {letter}
+                            </div>
+                        )
+                    })}
+                </div>
+                )
+            })}
             
-        {/* <input type="text" maxLength={5} onChange={handleInput} value={currentGuess} style={{ background: 'white', color: 'black', padding: '1em', marginTop: '5px'}} /> */}
-        <button onClick={() => {
-            setGuesses([...guesses, currentGuess])
-            setCurrentGuess('')
-            setGuessNumber(guessNumber + 1)
-        }
-        } disabled={currentGuess.length !== 5}
-        style={{ marginTop: '2px', background: 'black', color: 'white', border: '1px solid grey', padding: '2px 0', cursor: 'pointer'}}>Submit</button>
+            {/* <input type="text" maxLength={5} onChange={handleInput} value={currentGuess} style={{ background: 'white', color: 'black', padding: '1em', marginTop: '5px'}} /> */}
+            <button onClick={() => {
+                handleSubmit()
+            }
+            } disabled={currentGuess.length !== 5}
+            style={{ marginTop: '2px', background: 'black', color: 'white', border: '1px solid grey', padding: '2px 0', cursor: 'pointer'}}>Submit</button>
         </div>
-        </div>
+    </div>
     )
 }
