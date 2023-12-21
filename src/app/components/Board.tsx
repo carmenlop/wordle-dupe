@@ -11,11 +11,11 @@ export default function Board() {
     const [currentGuess, setCurrentGuess] = useState<string>('')
     const [guessNumber, setGuessNumber] = useState<number>(0);
     const emptyLine = (<div style={{ display: 'flex', flex: 'column', gap: '5px', marginTop: '5px'}}>
-    <div style={{ background: 'black', minWidth: '50px', maxWidth: '50px', minHeight: '50px', maxHeight: '50px', padding: '10px', border: '1px solid grey', textAlign: 'center'}} />
-    <div style={{ background: 'black', minWidth: '50px', maxWidth: '50px', minHeight: '50px', maxHeight: '50px', padding: '10px', border: '1px solid grey', textAlign: 'center'}} />
-    <div style={{ background: 'black', minWidth: '50px', maxWidth: '50px', minHeight: '50px', maxHeight: '50px', padding: '10px', border: '1px solid grey', textAlign: 'center'}} />
-    <div style={{ background: 'black', minWidth: '50px', maxWidth: '50px', minHeight: '50px', maxHeight: '50px', padding: '10px', border: '1px solid grey', textAlign: 'center'}} />
-    <div style={{ background: 'black', minWidth: '50px', maxWidth: '50px', minHeight: '50px', maxHeight: '50px', padding: '10px', border: '1px solid grey', textAlign: 'center'}} />
+    <div className="letterBox" />
+    <div className="letterBox" />
+    <div className="letterBox" />
+    <div className="letterBox" />
+    <div className="letterBox" />
 </div>)
     const emptyGuesses = new Array(5).fill(emptyLine)
     if (typeof document !== "undefined") {
@@ -60,7 +60,7 @@ export default function Board() {
                 return (
                     <div key={`current-guess-${index}`} style={{ background: 'black', minWidth: '50px', maxWidth: '50px', minHeight: '50px', maxHeight: '50px', padding: '15px', border: '1px solid grey', textAlign: 'center'}}>{letter.toUpperCase()}</div>
                  )})}
-            {new Array(5 - currentGuess.length).fill(<div style={{ background: 'black', minWidth: '50px', maxWidth: '50px', minHeight: '50px', maxHeight: '50px', padding: '10px', border: '1px solid grey', textAlign: 'center'}} />).map((a, ind) => {
+            {new Array(5 - currentGuess.length).fill(<div className="letterBox" />).map((a, ind) => {
                 return (
                     <div key={`empty-${ind}-0`}>
                         {a}

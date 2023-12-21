@@ -100,6 +100,17 @@ a {
   text-decoration: none;
 }
 
+.letterBox {
+  background-color: black;
+  min-width: 50px;
+  max-width: 50px;
+  min-height: 50px;
+  max-height: 50px;
+  padding: 10px;
+  border: 1px solid black;
+  text-align: center;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
