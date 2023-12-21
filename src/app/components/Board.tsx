@@ -4,9 +4,6 @@ import {useEffect, useState} from "react";
 
 export default function Board() {
     const letters = [['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'], ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'], ['Z', 'X', 'C', 'V', 'B', 'N', 'M']]
-    const topLetters = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P']
-    const medLetters = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L']
-    const bottomLetters = ['Z', 'X', 'C', 'V', 'B', 'N', 'M']
     const [guesses, setGuesses] = useState<string[]>(new Array())
     const word = 'vowel'
     const [currentGuess, setCurrentGuess] = useState<string>('')
