@@ -6,30 +6,43 @@ export default function Board() {
     const letters = [['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'], ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'], ['Z', 'X', 'C', 'V', 'B', 'N', 'M']]
     const [guesses, setGuesses] = useState<string[]>(new Array())
     const word = 'vowel'
-    const [currentGuess, setCurrentGuess] = useState<string>('')
+    const [currentGuess, setCurrentGuess] = useState<string>('');
     const [guessNumber, setGuessNumber] = useState<number>(0);
-    const emptyLine = (<div style={{ display: 'flex', flex: 'column', gap: '5px', marginTop: '5px'}}>
-    <div className="letterBox" />
-    <div className="letterBox" />
-    <div className="letterBox" />
-    <div className="letterBox" />
-    <div className="letterBox" />
-</div>)
+
+    const [message, setMessage] = useState<string>('');
+
+    const emptyLine =
+        (<div style={{ display: 'flex', flex: 'column', gap: '5px', marginTop: '5px'}}>
+            <div className="letterBox" />
+            <div className="letterBox" />
+            <div className="letterBox" />
+            <div className="letterBox" />
+            <div className="letterBox" />
+        </div>)
+
+    const clearMessage = () => {
+        setMessage('');
+    }
 
     const handleSubmit = () => {
-        setGuesses([...guesses, currentGuess])
-        setCurrentGuess('')
-        setGuessNumber(guessNumber + 1)
+        if (currentGuess.length === 5) {
+            setGuesses([...guesses, currentGuess])
+            setCurrentGuess('')
+            setGuessNumber(guessNumber + 1)
+        } else {
+            setMessage('Whoops! Word length must be 5 letters long to submit.')
+            setTimeout(clearMessage, 1300);
+        }
     }
+
     const emptyGuesses = new Array(5).fill(emptyLine)
+
     if (typeof document !== "undefined") {
         document.onkeydown = (e) => {
             if (e.key === 'Enter') {
-                if (currentGuess.length === 5) {
-                    handleSubmit()
-                }
-            } else if (e.key === 'Backspace' && currentGuess.length > 0) {
-                setCurrentGuess(currentGuess.slice(0, -1))
+                handleSubmit()
+            } else if (e.key === 'Backspace') {
+                setCurrentGuess(currentGuess.slice(0, -1) || '')
             } else {
                 setCurrentGuess(currentGuess + e.key)
             }
@@ -106,13 +119,13 @@ export default function Board() {
                 )
             })}
             
-            {/* <input type="text" maxLength={5} onChange={handleInput} value={currentGuess} style={{ background: 'white', color: 'black', padding: '1em', marginTop: '5px'}} /> */}
             <button onClick={() => {
                 handleSubmit()
             }
-            } disabled={currentGuess.length !== 5}
+            }
             style={{ marginTop: '2px', background: 'black', color: 'white', border: '1px solid grey', padding: '2px 0', cursor: 'pointer'}}>Submit</button>
         </div>
+        <p style={{ fontSize: '0.65em'}}>{message}</p>
     </div>
     )
 }
