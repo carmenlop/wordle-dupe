@@ -1,11 +1,14 @@
 'use client'
-import React from "react";
-import {useEffect, useState} from "react";
+import React, { useEffect } from "react";
+import {useState} from "react";
+import { allWords } from "./words";
 
 export default function Board() {
+    const [word, setWord] = useState<string>('');
+
     const letters = [['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'], ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'], ['Z', 'X', 'C', 'V', 'B', 'N', 'M']]
+
     const [guesses, setGuesses] = useState<string[]>(new Array())
-    const word = 'vowel'
     const [currentGuess, setCurrentGuess] = useState<string>('');
     const [guessNumber, setGuessNumber] = useState<number>(0);
 
@@ -55,8 +58,13 @@ export default function Board() {
         } else if (word.includes(letter.toLowerCase())) {
             return 'rgba(245, 230, 83)'
         }
-        return 'black'
+        return 'gray'
     }
+
+    useEffect(() => {
+        const wordIndex = Math.floor(Math.random() * allWords.length)
+        setWord(allWords[wordIndex])
+    }, [])
     
     return (
         <div>
